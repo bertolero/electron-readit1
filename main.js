@@ -3,8 +3,16 @@ Need transpilation
 import {app, BrowserWindow} from 'electron';
 import windowStateKeeper from 'electron-window-state';
  */
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state')
+
+
+ipcMain.on('new-item', (e, itemUrl) => {
+    console.debug(e);
+    setTimeout(() => {
+        e.sender.send('new-item-success', 'New item from main process')
+    }, 2000)
+});
 
 function createWindow() {
 

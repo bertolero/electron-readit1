@@ -22,11 +22,28 @@ exports.changeSelection = direction => {
     if (direction === 'ArrowUp' && currentDirection.previousSibling) {
         currentDirection.classList.remove('selected');
         currentDirection.previousSibling.classList.add('selected');
-    } else if(direction === 'ArrowDown' && currentDirection.nextSibling) {
+    } else if (direction === 'ArrowDown' && currentDirection.nextSibling) {
         currentDirection.classList.remove('selected');
         currentDirection.nextSibling.classList.add('selected');
     }
 
+};
+
+exports.open = () => {
+    if (this.storage.length) {
+        const selectedItem = document.getElementsByClassName('read-item selected')[0];
+
+        const contentURL = selectedItem.dataset.url;
+
+        const readerWin = window.open(contentURL, '', `
+        maxWidth=2000,
+        maxHeight=2000,
+        width=1200,
+        height=800,
+        backgroundColor=#DEDEDE,
+        nodeIntegration=0,
+        contextIsolation=1`)
+    }
 };
 
 exports.addItem = (item, isNew = false) => {
@@ -46,7 +63,7 @@ exports.addItem = (item, isNew = false) => {
 
     itemNode.addEventListener('dblclick', this.open);
 
-    if(document.getElementsByClassName('read-item').length === 1) {
+    if (document.getElementsByClassName('read-item').length === 1) {
         itemNode.classList.add('selected');
     }
 

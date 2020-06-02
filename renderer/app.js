@@ -10,6 +10,7 @@ const closeModal = document.getElementById('close-modal');
 const modal = document.getElementById('modal');
 const addItem = document.getElementById('add-item');
 const itemUrl = document.getElementById('url');
+const search = document.getElementById('search')
 
 const toggleModalButtons = () => {
 
@@ -64,3 +65,16 @@ itemUrl.addEventListener('keyup', e => {
     }
 });
 
+search.addEventListener('keyup', e => {
+    Array.from(document.getElementsByClassName('read-item')).forEach(item => {
+        const hasMatch = item.innerText.toLocaleLowerCase().includes(search.value);
+        item.style.display = hasMatch ? 'flex' : 'none';
+    })
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        items.changeSelection(e.key);
+
+    }
+});

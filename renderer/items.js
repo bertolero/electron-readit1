@@ -1,6 +1,46 @@
+const fs = require('fs');
+
+let readerJS = null;
+fs.readFile(`${__dirname}/reader.js`, (err, data) => {
+    readerJS = data.toString();
+});
+
 const items = document.getElementById('items');
 
 exports.storage = JSON.parse(localStorage.getItem('readit-items')) || [];
+
+window.addEventListener('message', e => {
+    if (e.data.action === 'delete-reader-item') {
+        this.delete(e.data.itemIndex);
+
+        e.source.close();
+    }
+});
+
+exports.delete = itemIndex => {
+    items.removeChild(items.childNodes[itemIndex]);
+
+    this.storage.splice(itemIndex, 1);
+
+    this.save();
+
+    if (this.storage.length) {
+        const newSelectedItemIndex = (itemIndex === 0) ? 0 : itemIndex - 1;
+
+        document.getElementsByClassName('read-item')[newSelectedItemIndex].classList.add('selected');
+    }
+};
+
+exports.getSelectedItem = () => {
+    const currentItem = document.getElementsByClassName('read-item selected')[0];
+
+    let itemIndex = 0, child = currentItem;
+    while ((child = child.previousSibling) != null) {
+        itemIndex++;
+    }
+
+    return {node: currentItem, index: itemIndex};
+};
 
 exports.save = () => {
     localStorage.setItem('readit-items', JSON.stringify(this.storage));
@@ -31,9 +71,9 @@ exports.changeSelection = direction => {
 
 exports.open = () => {
     if (this.storage.length) {
-        const selectedItem = document.getElementsByClassName('read-item selected')[0];
+        const selectedItem = this.getSelectedItem();
 
-        const contentURL = selectedItem.dataset.url;
+        const contentURL = selectedItem.node.dataset.url;
 
         const readerWin = window.open(contentURL, '', `
         maxWidth=2000,
@@ -42,7 +82,10 @@ exports.open = () => {
         height=800,
         backgroundColor=#DEDEDE,
         nodeIntegration=0,
-        contextIsolation=1`)
+        contextIsolation=1,
+        `);
+
+        readerWin.eval(readerJS.replace('{{index}}', selectedItem.index));
     }
 };
 

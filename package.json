@@ -7,7 +7,7 @@
     "start": "electron ./src/main.js",
     "watch": "nodemon --exec electron ./src/main.js",
     "reset": "git reset --hard",
-    "build": "electron-builder -wl",
+    "build": "electron-builder -w",
     "release": "electron-builder -w -p 'onTagOrDraft'",
     "win-cert": "electron-builder create-self-signed-cert -p bertolacademy"
   },
@@ -26,6 +26,8 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "electron-log": "^4.2.1",
+    "electron-updater": "^4.3.1",
     "electron-window-state": "^5.0.3"
   },
   "build": {

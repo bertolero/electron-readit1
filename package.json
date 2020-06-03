@@ -2,10 +2,10 @@
   "name": "electron-readit1",
   "version": "1.0.0",
   "description": "Master Electron Course Code",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
-    "watch": "nodemon --exec electron .",
+    "start": "electron ./src/main.js",
+    "watch": "nodemon --exec electron ./src/main.js",
     "reset": "git reset --hard"
   },
   "repository": "https://github.com/stackacademytv/master-electron",

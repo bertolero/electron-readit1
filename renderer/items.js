@@ -1,4 +1,5 @@
 const fs = require('fs');
+const {shell} = require('electron');
 
 let readerJS = null;
 fs.readFile(`${__dirname}/reader.js`, (err, data) => {
@@ -49,7 +50,7 @@ exports.save = () => {
 exports.select = e => {
     console.debug(e);
 
-    document.getElementsByClassName('read-item selected')[0].classList.remove('selected');
+    this.getSelectedItem().node.classList.remove('selected');
 
     e.currentTarget.classList.add('selected');
 };
@@ -68,6 +69,14 @@ exports.changeSelection = direction => {
     }
 
 };
+
+exports.openNative = () => {
+    if (this.storage.length) {
+        const selectedItem = this.getSelectedItem();
+
+        shell.openExternal(selectedItem.node.dataset.url);
+    }
+}
 
 exports.open = () => {
     if (this.storage.length) {

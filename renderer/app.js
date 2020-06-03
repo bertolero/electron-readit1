@@ -12,6 +12,38 @@ const addItem = document.getElementById('add-item');
 const itemUrl = document.getElementById('url');
 const search = document.getElementById('search')
 
+window.newItem = () => {
+    console.debug('window.newItem');
+    showModal.click();
+}
+
+window.openItem = items.open;
+
+window.deleteItem = () => {
+    console.debug('window.deleteItem');
+    const selectedItem = items.getSelectedItem();
+    items.delete(selectedItem.index);
+}
+
+window.openItemNative = items.openNative;
+
+window.searchItems = () => {
+    search.focus();
+}
+
+search.addEventListener('keyup', e => {
+    Array.from(document.getElementsByClassName('read-item')).forEach(item => {
+        const hasMatch = item.innerText.toLocaleLowerCase().includes(search.value);
+        item.style.display = hasMatch ? 'flex' : 'none';
+    })
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        items.changeSelection(e.key);
+    }
+});
+
 const toggleModalButtons = () => {
 
     if (addItem.disabled === true) {
@@ -59,22 +91,7 @@ ipcRenderer.on('new-item-success', (e, newItem) => {
 });
 
 itemUrl.addEventListener('keyup', e => {
-    console.debug(e);
     if (e.key === 'Enter') {
         addItem.click();
-    }
-});
-
-search.addEventListener('keyup', e => {
-    Array.from(document.getElementsByClassName('read-item')).forEach(item => {
-        const hasMatch = item.innerText.toLocaleLowerCase().includes(search.value);
-        item.style.display = hasMatch ? 'flex' : 'none';
-    })
-});
-
-document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-        items.changeSelection(e.key);
-
     }
 });

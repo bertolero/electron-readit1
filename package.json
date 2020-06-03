@@ -1,6 +1,6 @@
 {
   "name": "ReadIt",
-  "version": "1.0.0",
+  "version": "0.0.9",
   "description": "Master Electron Course Code",
   "main": "src/main.js",
   "scripts": {
@@ -33,7 +33,10 @@
       "target": "dmg"
     },
     "win": {
-      "target": "zip"
+      "certificateFile": "private/bertolacademy.pfx",
+      "certificatePassword": "",
+      "verifyUpdateCodeSignature": false,
+      "publisherName": "bertolacademy"
     },
     "linux": {
       "category": "Utility"

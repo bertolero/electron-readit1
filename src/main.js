@@ -5,6 +5,7 @@ import windowStateKeeper from 'electron-window-state';
  */
 const {app, BrowserWindow, ipcMain} = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const path = require('path');
 const readItem = require('./util/readItem');
 
 ipcMain.on('new-item', (e, itemUrl) => {
@@ -34,7 +35,7 @@ function createWindow() {
         }
     });
 
-    mainWindow.loadFile('renderer/main.html');
+    mainWindow.loadURL(`file://${path.join(__dirname, 'renderer/main.html')}`);
 
     mainWindow.webContents.openDevTools();
 

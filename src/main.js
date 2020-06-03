@@ -42,7 +42,7 @@ function createWindow() {
 
     mainWindow.loadURL(`file://${path.join(__dirname, 'renderer/main.html')}`);
 
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 
     state.manage(mainWindow);
 
